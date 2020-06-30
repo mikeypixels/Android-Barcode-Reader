@@ -1,30 +1,41 @@
 package info.androidhive.barcodereader;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.List;
+import java.util.Objects;
 
 import info.androidhive.barcode.BarcodeReader;
+import info.androidhive.barcodereader.SQLiteDatabaseFolder.DatabaseHandler;
 
-public class MainActivity extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+/***
+ * Created by Mikey Pixels
+ * year 2020
+ */
+
+public class BarcodeScanActivity extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
+    private static final String TAG = BarcodeScanActivity.class.getSimpleName();
 
     private BarcodeReader barcodeReader;
+
+    private DatabaseHandler db = new DatabaseHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_barcode_scan);
 
         // getting barcode instance
         barcodeReader = (BarcodeReader) getSupportFragmentManager().findFragmentById(R.id.barcode_fragment);
 
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Scanning...");
 
         /***
          * Providing beep sound. The sound file has to be placed in
@@ -49,7 +60,13 @@ public class MainActivity extends AppCompatActivity implements BarcodeReader.Bar
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "Barcode: " + barcode.displayValue, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Barcode: " + barcode.displayValue, Toast.LENGTH_SHORT).show();
+                if(db.addSale(barcode.displayValue)){
+                    Toast.makeText(getApplicationContext(), "Sale added with Barcode: " + barcode.displayValue, Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Sale was not added!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -86,5 +103,10 @@ public class MainActivity extends AppCompatActivity implements BarcodeReader.Bar
     public void onCameraPermissionDenied() {
         Toast.makeText(getApplicationContext(), "Camera permission denied!", Toast.LENGTH_LONG).show();
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

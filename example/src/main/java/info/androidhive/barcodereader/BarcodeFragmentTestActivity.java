@@ -1,9 +1,14 @@
 package info.androidhive.barcodereader;
 
-
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+/***
+ * Created by Mikey Pixels
+ * year 2020
+ */
 
 public class BarcodeFragmentTestActivity extends AppCompatActivity {
 
@@ -15,6 +20,7 @@ public class BarcodeFragmentTestActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         BarcodeFragment bf = new BarcodeFragment();
         ft.add(R.id.container, bf);
+//        ft.add(R.id.container, bf);
         ft.commit();
     }
 }

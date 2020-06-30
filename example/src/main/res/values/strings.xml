@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Barcode Reader</string>
+    <string name="title_activity_main">ActivityMain</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Benjamin Franklin</string>
+    <string name="nav_header_subtitle">benjamin.franklin@hotmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="menu_home">Report</string>
+    <string name="menu_register">Register Item</string>
+    <string name="menu_sales">Sales</string>
 </resources>
