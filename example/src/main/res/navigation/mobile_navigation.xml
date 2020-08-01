@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_register_item" />
 
     <fragment
+        android:id="@+id/nav_products"
+        android:name="info.androidhive.barcodereader.ProductsFragment"
+        android:label="@string/menu_products"
+        tools:layout="@layout/fragment_products" />
+
+    <fragment
         android:id="@+id/nav_sales"
         android:name="info.androidhive.barcodereader.ui.sales.SalesFragment"
         android:label="@string/menu_sales"

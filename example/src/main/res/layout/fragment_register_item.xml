@@ -14,8 +14,8 @@
         tools:context=".ui.registerItem.RegisterItemFragment">
 
         <ImageView
-            android:layout_width="110dp"
-            android:layout_height="70dp"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:src="@drawable/daily_sells"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
@@ -47,8 +47,8 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             app:cardCornerRadius="25dp"
-            android:layout_marginTop="40dp"
-            app:cardElevation="6dp">
+            android:layout_marginTop="15dp"
+            app:cardElevation="2dp">
 
             <EditText
                 android:id="@+id/name_edittext"
@@ -62,20 +62,43 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/priceCard"
+            android:id="@+id/quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             app:cardCornerRadius="25dp"
-            android:layout_marginTop="20dp"
-            app:cardElevation="6dp">
+            android:layout_marginTop="15dp"
+            app:cardElevation="2dp">
 
             <EditText
-                android:id="@+id/price_edittext"
+                android:id="@+id/quantity_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="Price"
+                android:hint="Initial quantity"
+                android:inputType="number"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/edittext_bg" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/amountCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            app:cardCornerRadius="25dp"
+            android:layout_marginTop="15dp"
+            app:cardElevation="2dp">
+
+            <EditText
+                android:id="@+id/amount_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Amount"
+                android:inputType="number"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:background="@drawable/edittext_bg"/>
@@ -89,9 +112,9 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             app:cardCornerRadius="25dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:focusable="false"
-            app:cardElevation="6dp">
+            app:cardElevation="2dp">
 
             <EditText
                 android:id="@+id/barcode_edittext"

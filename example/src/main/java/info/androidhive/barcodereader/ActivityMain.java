@@ -1,19 +1,20 @@
 package info.androidhive.barcodereader;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,6 +31,8 @@ import androidx.appcompat.widget.Toolbar;
 public class ActivityMain extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    NavigationView navigationView;
+    private View navHeader;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -39,11 +42,20 @@ public class ActivityMain extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.scan_fab);
+
+        navigationView = findViewById(R.id.nav_view);
+
+        // Navigation view header
+        navHeader = navigationView.getHeaderView(0);
+        TextView usernameText = navHeader.findViewById(R.id.username);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ActivityMain.this);
+        usernameText.setText(preferences.getString("full_name", ""));
 //        FloatingActionButton register_scan_fab = findViewById(R.id.register_scan_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActivityMain.this, BarcodeScanActivity.class);
+                Intent intent = new Intent(ActivityMain.this, BarcodeScanSellActivity.class);
                 startActivity(intent);
             }
         });
@@ -63,7 +75,7 @@ public class ActivityMain extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_register_item, R.id.nav_sales)
+                R.id.nav_home, R.id.nav_register_item, R.id.nav_products, R.id.nav_sales)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

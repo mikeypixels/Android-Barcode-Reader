@@ -1,17 +1,21 @@
 package info.androidhive.barcodereader;
 
 public class Sale {
-    int id;
+    int id, quantity;
     double amount;
     String product_name;
-    long date;
+    String date;
 
-//    public Sale(int id, double amount, Long date, String product_name) {
-//        this.id = id;
-//        this.amount = amount;
-//        this.date = date;
-//        this.product_name = product_name;
-//    }
+    public Sale(){
+
+    }
+
+    public Sale(int id, double amount, String date, String product_name) {
+        this.id = id;
+        this.amount = amount;
+        this.date = date;
+        this.product_name = product_name;
+    }
 
     public int getId() {
         return id;
@@ -29,11 +33,11 @@ public class Sale {
         this.amount = amount;
     }
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -43,5 +47,13 @@ public class Sale {
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

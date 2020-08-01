@@ -29,7 +29,7 @@
             android:name=".ActivityMain"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".BarcodeScanActivity"
+            android:name=".BarcodeScanSellActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".BarcodeFragmentTestActivity"

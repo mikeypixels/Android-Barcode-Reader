@@ -19,7 +19,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
 
     Context context;
     List<Sale> sales;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public SalesAdapter(Context context, ArrayList<Sale> sales){
         this.context = context;
@@ -28,12 +28,12 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView sn, product_name, date, amount;
+        TextView quantity, product_name, date, amount;
         ConstraintLayout itemLayout;
 
         public ViewHolder(View itemView){
             super(itemView);
-            sn = itemView.findViewById(R.id.no);
+            quantity = itemView.findViewById(R.id.quantity);
             product_name = itemView.findViewById(R.id.product_name);
             date = itemView.findViewById(R.id.date);
             amount = itemView.findViewById(R.id.amount);
@@ -52,11 +52,11 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 //        holder.itemLayout.setBackgroundColor(Color.WHITE);
-        holder.sn.setText(String.valueOf(sales.get(position).getId()));
-        holder.sn.setTextColor(Color.BLACK);
-        holder.date.setText(simpleDateFormat.format(sales.get(position).getDate()));
+        holder.quantity.setText(String.valueOf(sales.get(position).getQuantity()));
+        holder.quantity.setTextColor(Color.BLACK);
+        holder.date.setText(sales.get(position).getDate());
         holder.date.setTextColor(Color.BLACK);
-        holder.product_name.setText(String.valueOf(sales.get(position).getProduct_name()));
+        holder.product_name.setText(sales.get(position).getProduct_name());
         holder.product_name.setTextColor(Color.BLACK);
         holder.amount.setText(String.valueOf(sales.get(position).getAmount()));
         holder.amount.setTextColor(Color.BLACK);

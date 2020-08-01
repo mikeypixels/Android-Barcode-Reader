@@ -1,9 +1,7 @@
 package info.androidhive.barcodereader;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -24,7 +22,7 @@ import info.androidhive.barcodereader.ui.registerItem.RegisterItemFragment;
  */
 
 public class BarcodeScanRegisterItemActivity extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
-    private static final String TAG = BarcodeScanActivity.class.getSimpleName();
+    private static final String TAG = BarcodeScanSellActivity.class.getSimpleName();
 
     private BarcodeReader barcodeReader;
 
@@ -95,7 +93,7 @@ public class BarcodeScanRegisterItemActivity extends AppCompatActivity implement
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "Barcodes: " + finalCodes, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Barcodes: " + finalCodes, Toast.LENGTH_SHORT).show();
             }
         });
     }
