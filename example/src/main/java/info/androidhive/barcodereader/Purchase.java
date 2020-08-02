@@ -3,13 +3,23 @@ package info.androidhive.barcodereader;
 public class Purchase {
     String id, name;
     double amount;
+    int quantity;
     String date;
 
-    public Purchase(String id, String date, String name, Double amount) {
+    public Purchase(String id, String date, String name, int quantity, Double amount) {
         this.id = id;
         this.date = date;
         this.name = name;
         this.amount = amount;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getId() {

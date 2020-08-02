@@ -21,43 +21,85 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="30dp"/>
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Register Product"-->
-<!--            android:textStyle="bold"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:layout_marginTop="30dp"-->
-<!--            android:textSize="25sp"-->
-<!--            android:textColor="@android:color/black"/>-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Register Product"-->
+        <!--            android:textStyle="bold"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:layout_marginBottom="10dp"-->
+        <!--            android:layout_marginTop="30dp"-->
+        <!--            android:textSize="25sp"-->
+        <!--            android:textColor="@android:color/black"/>-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register an item for barcode reading"
+            android:text="Register purchase"
             android:layout_gravity="center_horizontal"
             android:textSize="14sp"
             android:textColor="#757575"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/nameCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            app:cardCornerRadius="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            app:cardElevation="2dp">
+
+            <Spinner
+                android:id="@+id/product_spinner"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             app:cardCornerRadius="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             app:cardElevation="2dp">
 
             <EditText
-                android:id="@+id/name_edittext"
+                android:id="@+id/quantity_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="Product name"
+                android:hint="Quantity"
+                android:inputType="number"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:background="@drawable/edittext_bg" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/amountCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            app:cardCornerRadius="25dp"
+            android:layout_marginTop="15dp"
+            app:cardElevation="2dp">
+
+            <EditText
+                android:id="@+id/amount_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Amount"
+                android:inputType="number"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/edittext_bg"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -68,15 +110,15 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             app:cardCornerRadius="25dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:focusable="false"
             app:cardElevation="2dp">
 
             <EditText
-                android:id="@+id/barcode_edittext"
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="Barcode"
+                android:hint="Date"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:focusable="false"
@@ -85,7 +127,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/reg_button"
+            android:id="@+id/submit_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="55dp"
@@ -95,7 +137,7 @@
             android:background="@drawable/btn_bg"
             android:textColor="@android:color/white"
             android:outlineAmbientShadowColor="#757575"
-            android:text="register"/>
+            android:text="Submit"/>
 
     </LinearLayout>
 

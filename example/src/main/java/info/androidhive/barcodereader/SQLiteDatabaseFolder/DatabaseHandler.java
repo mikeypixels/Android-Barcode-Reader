@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_QUANTITY = "quantity";
 
     private static final String KEY_PRODUCT_ID = "id";
-    private static final String KEY_PRICE = "price";
     private static final String KEY_PRODUCT_NAME = "product_name";
     private static final String KEY_BARCODE = "barcode";
 
@@ -69,8 +69,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             + KEY_SALE_PRODUCT_NAME + " TEXT," + KEY_AMOUNT + " DOUBLE," + KEY_QUANTITY + " INTEGER" + ")";
 
     String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
-            + KEY_PRODUCT_ID + " INTEGER PRIMARY KEY," + KEY_PRICE + " DOUBLE,"
-            + KEY_PRODUCT_NAME + " TEXT," + KEY_BARCODE + " TEXT" + ")";
+            + KEY_PRODUCT_ID + " INTEGER PRIMARY KEY," + KEY_PRODUCT_NAME + " TEXT," + KEY_BARCODE + " TEXT" + ")";
 
     String CREATE_PURCHASE_TABLE = "CREATE TABLE " + TABLE_PURCHASE + "("
             + KEY_PURCHASE_ID + " INTEGER PRIMARY KEY," + KEY_PURCHASE_DATE + " DATE," + KEY_PURCHASE_NAME + " TEXT,"
@@ -185,10 +184,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
 
-        int quantity = cursor.getInt(1);
-        cursor.close();
+        if(cursor.getCount() > 0){
+            int quantity = cursor.getInt(1);
+            cursor.close();
 
-        return quantity;
+            return quantity;
+        }else{
+            return 0;
+        }
+
+
     }
 
 //    public  SentMessage getSentMessage(int id){
@@ -228,36 +233,76 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //        return userList;
 //    }
 
-    public boolean addProduct(Product product, int startquantity, String date) {
+    public boolean addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_PRODUCT_NAME, product.getProduct_name());
-        values.put(KEY_PRICE, product.getPrice());
         values.put(KEY_BARCODE, product.getBarcode());
 
-        ContentValues valuesPurchase = new ContentValues();
-        valuesPurchase.put(KEY_PURCHASE_DATE, date);
-        valuesPurchase.put(KEY_PURCHASE_AMOUNT, product.getPrice());
-        valuesPurchase.put(KEY_PURCHASE_NAME, product.getProduct_name());
+//        ArrayList<Product> products = new ArrayList<>();
+//        int product_id = 0;
+//        String product_barcode = "";
+//
+//        products = getAllProducts();
 
-        ContentValues valuesStock = new ContentValues();
-        valuesStock.put(KEY_STOCK_PRODUCT_ID, product.getId());
-        valuesStock.put(KEY_STOCK_QUANTITY, startquantity);
-        valuesStock.put(KEY_STOCK_BARCODE, product.getBarcode());
-
-        System.out.println("----------------------------------------------" + product.getId() + "  " + startquantity + "  " + product.getBarcode());
+//        ContentValues valuesStock = new ContentValues();
+//        valuesStock.put(KEY_STOCK_PRODUCT_ID, product.getId());
+//        valuesStock.put(KEY_STOCK_QUANTITY, startquantity);
+//        valuesStock.put(KEY_STOCK_BARCODE, product.getBarcode());
+//
+//        System.out.println("----------------------------------------------" + product.getId() + "  " + startquantity + "  " + product.getBarcode());
 
         boolean success = false;
 
         try {
             db.insert(TABLE_PRODUCT, null, values);
-            db.insert(TABLE_STOCKS, null, valuesStock);
-            db.insert(TABLE_PURCHASE, null, valuesPurchase);
+//            db.insert(TABLE_STOCKS, null, valuesStock);
+
             success = true;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            db.close();
+        }
+
+        return success;
+    }
+
+    public boolean addPurchase(Purchase purchase){
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean success = false;
+
+        ContentValues valuesPurchase = new ContentValues();
+        valuesPurchase.put(KEY_PURCHASE_DATE, purchase.getDate());
+        valuesPurchase.put(KEY_PURCHASE_AMOUNT, purchase.getAmount());
+        valuesPurchase.put(KEY_PURCHASE_NAME, purchase.getName());
+
+        ArrayList<Product> products = new ArrayList<>();
+        int product_id = 0;
+        String product_barcode = "";
+
+        products = getAllProducts();
+
+        for(Product product: products){
+            if(product.getProduct_name().equals(purchase.getName())){
+                product_id = product.getId();
+                product_barcode = product.getBarcode();
+            }
+        }
+
+        ContentValues valuesStock = new ContentValues();
+        valuesStock.put(KEY_STOCK_PRODUCT_ID, product_id);
+        valuesStock.put(KEY_STOCK_QUANTITY, purchase.getQuantity());
+        valuesStock.put(KEY_STOCK_BARCODE, product_barcode);
+
+        try{
+            db.insert(TABLE_PURCHASE, null, valuesPurchase);
+            db.insert(TABLE_STOCKS, null, valuesStock);
+            success = true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
             db.close();
         }
 
@@ -275,7 +320,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getInt(0), Double.parseDouble(cursor.getString(1)), cursor.getString(2), cursor.getString(3));
+                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
 //                sale.setId(Integer.parseInt(cursor.getString(0)));
 //                sale.setProduct_name(cursor.getString(2));
 //                sale.setAmount(Double.parseDouble(cursor.getString(3)));
@@ -341,7 +386,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         assert cursor != null;
         if (cursor.getCount() > 0)
-            product = new Product(cursor.getInt(0), cursor.getDouble(1), cursor.getString(2), cursor.getString(3));
+            product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
         else
             product = null;
 
@@ -349,8 +394,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return product;
     }
-
-    Calendar calendar = Calendar.getInstance();
 
     public boolean addSale(String barcode, double amount, int quantity) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -444,7 +487,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Purchase purchase = new Purchase(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3));
+                Purchase purchase = new Purchase(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(4), cursor.getDouble(3));
                 purchases.add(purchase);
             } while (cursor.moveToNext());
         }
@@ -554,6 +597,65 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int count = cursor.getCount();
         cursor.close();
         return count;
+    }
+
+    public boolean deleteProduct(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean success = false;
+
+        try {
+            db.delete(TABLE_PRODUCT, KEY_PRODUCT_ID + " = ?",
+                    new String[]{String.valueOf(id)});
+            db.delete(TABLE_STOCKS, KEY_STOCK_ID + " = ?",
+                    new String[]{String.valueOf(id)});
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close();
+        }
+
+        return success;
+    }
+
+    public boolean deleteSale(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean success = false;
+
+        try {
+            db.delete(TABLE_SALES, KEY_SALE_DATE + " = ?",
+                    new String[]{String.valueOf(id)});
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close();
+        }
+
+        return success;
+    }
+
+    public int updateProduct(Product product) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PRODUCT_NAME, product.getProduct_name());
+
+        return db.update(TABLE_PRODUCT, values, KEY_PRODUCT_ID + " = ?",
+                new String[]{String.valueOf(product.getId())});
+    }
+
+    public int updateSale(Sale sale) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_SALE_PRODUCT_NAME, sale.getProduct_name());
+        values.put(KEY_SALE_DATE, sale.getDate());
+        values.put(KEY_QUANTITY, sale.getQuantity());
+        values.put(KEY_AMOUNT, sale.getAmount());
+
+        return db.update(TABLE_SALES, values, KEY_SALE_ID + " = ?",
+                new String[]{String.valueOf(sale.getId())});
     }
 
 //    public int getSentMessageCount() {

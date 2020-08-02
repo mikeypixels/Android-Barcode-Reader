@@ -16,15 +16,21 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import info.androidhive.barcodereader.R;
 import info.androidhive.barcodereader.SQLiteDatabaseFolder.DatabaseHandler;
+import info.androidhive.barcodereader.Sale;
+import info.androidhive.barcodereader.SaleInterface;
 import info.androidhive.barcodereader.SalesAdapter;
 
-public class SalesFragment extends Fragment {
+public class SalesFragment extends Fragment implements SaleInterface {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     DatabaseHandler db;
+    ArrayList<Sale> saleArrayList;
+    SalesAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,9 +39,13 @@ public class SalesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_sales, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
 
+        saleArrayList = db.getAllSales();
+
+        adapter = new SalesAdapter(getContext(), db.getAllSales(), this);
+
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new SalesAdapter(getContext(), db.getAllSales()));
+        recyclerView.setAdapter(adapter);
 //        final TextView textView = root.findViewById(R.id.text_slideshow);
 //        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -52,4 +62,19 @@ public class SalesFragment extends Fragment {
         super.onAttach(context);
         db = new DatabaseHandler(getContext());
     }
+
+    @Override
+    public void getPosition(Sale sale) {
+        int position = 0;
+        for (int i = 0; i < saleArrayList.size(); i++) {
+            if (saleArrayList.get(i).equals(sale)) {
+                saleArrayList.remove(sale);
+                position = i;
+            }
+        }
+        adapter.notifyItemRemoved(position + 1);
+        adapter.notifyItemRangeChanged(position + 1, saleArrayList.size());
+
+    }
+
 }

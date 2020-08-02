@@ -2,12 +2,10 @@ package info.androidhive.barcodereader;
 
 public class Product {
     int id;
-    double price;
     String product_name, barcode;
 
-    public Product(int id, double price, String product_name, String barcode) {
+    public Product(int id, String product_name, String barcode) {
         this.id = id;
-        this.price = price;
         this.product_name = product_name;
         this.barcode = barcode;
     }
@@ -18,14 +16,6 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public String getProduct_name() {

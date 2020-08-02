@@ -42,6 +42,7 @@ public class ActivityMain extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.scan_fab);
+        FloatingActionButton purchase_fab = findViewById(R.id.purchase_fab);
 
         navigationView = findViewById(R.id.nav_view);
 
@@ -56,6 +57,14 @@ public class ActivityMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ActivityMain.this, BarcodeScanSellActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        purchase_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityMain.this, AddPurchaseActivity.class);
                 startActivity(intent);
             }
         });
@@ -99,6 +108,7 @@ public class ActivityMain extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             Intent intent = new Intent(ActivityMain.this,LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 //            finish();
             return true;
