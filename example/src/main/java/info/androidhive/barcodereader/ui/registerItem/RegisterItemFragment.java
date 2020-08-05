@@ -62,12 +62,16 @@ public class RegisterItemFragment extends Fragment {
                 if(name_edittext.getText().toString().isEmpty() || barcodeEdit.getText().toString().isEmpty()){
                     Toast.makeText(getContext(), "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 }else{
-                    if(db.addProduct(new Product(1, name_edittext.getText().toString(), barcodeEdit.getText().toString()))){
-                        Toast.makeText(getContext(), "Product registered!", Toast.LENGTH_SHORT).show();
-                        name_edittext.setText("");
-                        barcodeEdit.setText("");
+                    if(db.getProduct(barcodeEdit.getText().toString()) == null){
+                        if(db.addProduct(new Product(1, name_edittext.getText().toString(), barcodeEdit.getText().toString()))){
+                            Toast.makeText(getContext(), "Product registered!", Toast.LENGTH_SHORT).show();
+                            name_edittext.setText("");
+                            barcodeEdit.setText("");
+                        }else{
+                            Toast.makeText(getContext(), "Product was not added!", Toast.LENGTH_SHORT).show();
+                        }
                     }else{
-                        Toast.makeText(getContext(), "Product was not added!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Item with this barcode is already registered!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
